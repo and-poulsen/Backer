@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	h1 Welcome to Backer
+	p= name
+
+	ul
+		each val, index in rooms
+			li= val.name + ': ' + val.link
