@@ -6,4 +6,8 @@ block content
 
 	ul
 		each val, index in rooms
-			li= val.name + ': ' + val.link
+			li(class=val.type)
+				if (val.type == 'file' || val.type == 'redirect')
+					a(href=val.link, target='_blank')= val.name
+				else
+					a(href=val.link)= val.name
