@@ -1,0 +1,7 @@
+POST /login
+Successful login:
+response: {success: true, Cookie: "two_cookies_that_are_needed"}
+Bad credentials:
+response: {success: false, status: "wrongLogin"}
+Other error / no connection:
+response: {success: false, status: "error"}

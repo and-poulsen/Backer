@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
 				if(c == 0)
 					data.rooms.push({
 						name: $(this).find('tr td a').text(),
-						link: "/room/" + $(this).find('tr td a').attr('href').substring($(this).find('tr td a').attr('href').indexOf("edit=") + 6)
+						link: "/room/" + $(this).find('tr td a').attr('href').substring($(this).find('tr td a').attr('href').indexOf("edit=") + 5)
 					})
 			})
 			console.log(data.rooms);

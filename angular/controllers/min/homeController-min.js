@@ -1,0 +1,1 @@
+frontest.controller("homeController",["$scope","$log",function(o,e){}]);
