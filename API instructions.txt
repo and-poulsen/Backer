@@ -1,4 +1,7 @@
 POST /login
+body parameters:
+username: “username”
+password: “password”
 Successful login:
 response: {success: true, Cookie: "two_cookies_that_are_needed"}
 Bad credentials:
