@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="frontest">
+<head>
+	<meta charset="utf-8">
+	<title>Frontest</title>
+	<link rel="stylesheet" href="styles/style.css">
+	<script src="node_modules/angular/angular.min.js"></script>
+	<script src="node_modules/angular-route/angular-route.min.js"></script>
+	<script src="node_modules/angular-resource/angular-resource.min.js"></script>
+	<script src="node_modules/angular-storage/dist/angular-storage.min.js"></script>
+	<script src="app.js"></script>
+	<script src="routes.js"></script>
+	<script src="services/loginService.js"></script>
+	<script src="controllers/homeController.js"></script>
+	<script src="controllers/mainController.js"></script>
+	<script src="directives.js"></script>
+
+</head>
+<body ng-controller="mainController">
+
+	<app-header></app-header>
+
+	<div ng-view></div>
+
+</body>
+</html>

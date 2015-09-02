@@ -1,0 +1,1 @@
+frontest.service("loginService",["$http","$location","store",function(o,n,t){this.login=function(n,t){o.post("/login",{name:n,password:t}).success(function(o){o&&console.log("Token: "+o)}).error(function(o){$log.log(o)})}}]);

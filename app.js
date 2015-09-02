@@ -22,14 +22,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'angular')));
+
+app.get('/', function(request, response){
+    response.sendFile(__dirname +'/angular/index.html');
+});
 
 app.use('/', login);
-app.use('/', function(req, res, next) { //Check if Logged In
+/*app.use('/', function(req, res, next) { //Check if Logged In
   if(req.headers.cookie != undefined && req.headers.cookie.indexOf('wcid') > -1 && req.headers.cookie.indexOf('session_userkey') > -1)
     next();
   else
-    res.redirect('/login')
-})
+    res.redirect('/login');
+})*/
 app.use('/', routes);
 app.use('/users', users);
 

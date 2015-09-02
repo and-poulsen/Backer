@@ -63,17 +63,26 @@ router.post('/login', function(req, res, next) {
 			});
 
 			loginRes.on('end', function() {
-				console.log("logged in, setting cookie")
 
 				if(loginRes.headers['set-cookie'] !== undefined) { //Successful Login
+					console.log("logged in, responding with cookie");
+
+					var tempCookie = "";
 
 					for (var i = 0; i < loginRes.headers['set-cookie'].length; i++) {
 						var cookie = loginRes.headers['set-cookie'][i];
 						var equI = cookie.indexOf('=');
-						res.cookie(cookie.substring(0,equI), cookie.substring(equI+1, cookie.indexOf(';')))
+						//res.cookie(cookie.substring(0,equI), cookie.substring(equI+1, cookie.indexOf(';')))
+
+						tempCookie += cookie.substring(0,equI) + "=" + cookie.substring(equI+1, cookie.indexOf(';')) + "; ";
 					};
 
-					res.redirect('/');
+					res.send({
+						success: true,
+						cookies: tempCookie
+					});
+
+					//res.redirect('/');
 				} else {
 					res.render('login', {error: 'Wrong login'});
 				}
@@ -86,8 +95,7 @@ router.post('/login', function(req, res, next) {
 
 			
 		})
-
-});
+	});
 });
 
 

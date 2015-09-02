@@ -1,0 +1,1 @@
+frontest.controller("mainController",["$scope","$log","loginService",function(o,n,i){o.login=function(){i.login(o.name,o.password),n.log("Logging in with: "+o.name+o.password)}}]);
