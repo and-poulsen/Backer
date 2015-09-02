@@ -1,0 +1,49 @@
+/
+	data = {
+		name: ,
+		rooms: [
+			{
+			name,
+			link
+			}],
+		folders: [
+			{
+			name,
+			link
+			}],
+		news: [
+			{
+			title,
+			abstract,
+			author,
+			room,
+			date,
+			image
+			}]
+	}
+
+
+
+/news/:id
+	data = {
+		abstract
+	}
+
+/room/:id
+	data = {
+		folders: [
+			{
+			name,
+			link
+			}]
+	}
+
+/tree/:id
+	data = {
+		folders: [
+			{
+			name,
+			link,
+			type
+			}]
+	}

@@ -1,13 +1,37 @@
 extends layout
 
 block content
-	h1 Welcome to Backer
+	h1 Welcome to 
+		a(href='/') Backer
 	p= name
 
+	h2 Favourites
 	ul
-		each val, index in rooms
-			li(class=val.type)
-				if (val.type == 'file' || val.type == 'redirect')
-					a(href=val.link, target='_blank')= val.name
-				else
-					a(href=val.link)= val.name
+		h3 Rooms
+		if (rooms != undefined)
+			each val in rooms
+				li(class=val.type)
+					if (val.type == 'file' || val.type == 'redirect')
+						a(href=val.link, target='_blank')= val.name
+					else
+						a(href=val.link)= val.name
+		else
+			p No favourite rooms
+		h3 Folders
+		if (folders != undefined)
+			each val in folders
+				li(class=val.type)
+					if (val.type == 'file' || val.type == 'redirect')
+						a(href=val.link, target='_blank')= val.name
+					else
+						a(href=val.link)= val.name
+		else
+			p No favourite folders
+	h2 News
+		if(news != undefined)
+			each n in news
+				a(href=n.link)
+					h4= n.title
+				p= n.abstract
+				span= 'by' + n.author + ', ' + n.date
+				img(src=n.image)

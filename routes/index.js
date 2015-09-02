@@ -26,28 +26,95 @@ router.get('/', function(req, res, next) {
 
 			var data = {
 				name: $('a.ctrl-button').first().text(),
-				rooms: []
+				rooms: [],
+				folders: [],
+				news: []
 			}
 
 			// Rooms
-			$('.fav-room-list-element.content-frame-content').each(function(i,e) {
+			$('.fav-room-list-element.content-frame-content tr td a').each(function(i,e) {
 				var c = 0;
 				for (var i = 0; i < data.rooms.length; i++) {
-					if(data.rooms[i].name == $(this).find('tr td a').text())
+					if(data.rooms[i].name == $(this).text())
 						c++;
 				};
 				if(c == 0)
 					data.rooms.push({
-						name: $(this).find('tr td a').text(),
-						link: "/room/" + $(this).find('tr td a').attr('href').substring($(this).find('tr td a').attr('href').indexOf("edit=") + 6)
+						name: $(this).text(),
+						link: "/room/" + getId($(this).attr('href'), 'edit=', '')
 					})
 			})
 			console.log(data.rooms);
-			res.render('index', data);
+
+			//Favourite Rooms
+			$('.mybookmarks-element.content-frame-content tr td a').each(function(i,e) {
+				var c = 0;
+				for (var i = 0; i < data.folders.length; i++) {
+					if(data.folders[i].name == $(this).text())
+						c++;
+				};
+				if(c == 0)
+					data.folders.push({
+						name: $(this).text(),
+						link: "/tree/" + getId($(this).attr('href'), 'iid=', '&sechash')
+					})
+			})
+			//News
+			$('.div-news-displayarea').each(function(i,e) {
+				console.log('newsid: ' + i);
+				console.log($(this).find('img').attr('src'));
+				console.log(getId($(this).find('img').attr('src'), '.phtml', ''));
+				var image = '';
+				if($(this).find('img').length > 0)
+					image = 'https://fronter.com/cphbusiness' + $(this).find('img').attr('src').substring(2).replace('ℑ','&image_')
+				data.news.push({
+					title: $(this).find('h3 a.read-more').text(),
+					link: '/news/' + getId($(this).find('.div-news-textarea a').attr('href'), 'news_id=', '&readid='),
+					abstract: getId($(this).find('.abstract').html(), '', '<br>'),
+					author: $(this).find('.ids a').text(),
+					room: getId($(this).find('.ids').text(), ' in ', ','),
+					date: getId($(this).find('.ids').text(), getId($(this).find('.ids').text(), ' in ', ',') + ', ', ''),
+					image: image
+					// image: '/news/image?file=' + getId($(this).find('img').attr('src'), '?file=', 'ℑ') + '&image_prjid=' + getId($(this).find('img').attr('src'), 'prjid=', '')
+
+				})
+			})
+
+
+			res.json(data);
+			// res.render('index', data);
 		})
 });
-// curl "https://fronter.com/cphbusiness/prjframe/index.phtml?orderid=0&toolprjid=474978041&logstat_toolid=25&mo=2" -H "Accept-Encoding: gzip, deflate, sdch" -H "Accept-Language: en-US,en;q=0.8,da;q=0.6" -H "Upgrade-Insecure-Requests: 1" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36" -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" -H "Cache-Control: max-age=0" -H "Cookie: wcid=fed1b78739f9f928; session_userkey=4fe093cde1ad16ee812ea91111deab32; __cfduid=d6757e7a5d5ea4558cbdc2ab38f0d17831438269569" -H "Connection: keep-alive" --compressed
 
+
+// News
+router.get('/news/:id', function(req, res, next) {
+	var html;
+
+	https.get({
+		host: 'fronter.com',
+		path: '/cphbusiness/news/index.phtml?action=read_news&news_id=' + req.params.id + '&readid=' + req.params.id + '&from_page=3&popup=1&read_more=1',
+		headers: createHeaders(req)
+	}, function(response) {
+		response.on('data', function(d) {
+			html += d.toString();
+		})
+	}).on('error', function(e) {
+		console.log("Got error: " + e.message);
+	}).on('close', function() {
+		$ = cheerio.load(html);
+
+		var data = {
+			abstract: ''
+		}
+
+		$('.news-content-container p').each(function(i,e){
+			data.abstract += $(this).text() + '\n';
+		})
+
+		res.json(data);
+	})
+});
 
 // Room
 router.get('/room/:id', function(req, res, next) {
@@ -71,27 +138,24 @@ router.get('/room/:id', function(req, res, next) {
 					$ = cheerio.load(html);
 
 					var data = {
-						rooms: []
+						folders: []
 					}
-					// Rooms
+					// folders
 					$('.mybookmarks-element tr td.tablelist-text a').each(function(i,e) {
 						var c = 0;
-						for (var i = 0; i < data.rooms.length; i++) {
-							if(data.rooms[i].name == $(this).text())
+						for (var i = 0; i < data.folders.length; i++) {
+							if(data.folders[i].name == $(this).text())
 								c++;
 						};
 						if(c == 0) {
-							var l = $(this).attr('href');
-							l = l.substring(l.indexOf('iid=') + 4);
-							l = '/tree/' + l.substring(0, l.indexOf('&sechash'));
-							data.rooms.push({
+							data.folders.push({
 								name: $(this).text(),
-								link: l
+								link: getId($(this).attr('href'), 'iid=', '&sechash')
 							})
 						}
 					})
-					// res.send(html);
-					res.render('index', data);
+					res.json(data);
+					// res.render('index', data);
 				})
 			})
 		})
@@ -116,15 +180,15 @@ router.get('/tree/:id', function(req, res, next) {
 		$ = cheerio.load(html);
 
 		var data = {
-			rooms: []
+			folders: []
 		}
 
 		// Folders
 		// console.log($('.content-of-selected-folder').text());
 		$('.content-of-selected-folder tr td label a').each(function(i,e) {
 			var c = 0;
-			for (var i = 0; i < data.rooms.length; i++) {
-				if(data.rooms[i].name == $(this).text())
+			for (var i = 0; i < data.folders.length; i++) {
+				if(data.folders[i].name == $(this).text())
 					c++;
 			};
 			if(c == 0) {
@@ -144,14 +208,15 @@ router.get('/tree/:id', function(req, res, next) {
 					link = '/file?path=' + getId(link,'files.phtml%2F', '');
 				}
 
-				data.rooms.push({
+				data.folders.push({
 					name: $(this).text(),
 					link: link,
 					type: type
 				})
 			}
 		})
-		res.render('index', data);
+		res.json(data);
+		// res.render('index', data);
 	})
 
 });
@@ -207,6 +272,8 @@ router.get('/redirect/:id', function(req, res, next) {
 
 
 var getId = function(string, before, after) {
+	if(string == undefined)
+		return '';
 	string.replace(/\n/g, '');
 	string = string.substring(string.indexOf(before) + before.length);
 	if(after.length > 0)
