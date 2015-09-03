@@ -1,3 +1,37 @@
+// Variables
+$blue_color: #3344BA;
+$orange_color: #F2805D;
+
 body {
-	color: black;
+	background-color: #F8F8F8;
+	font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
+}
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+div.width {
+	width: 100%;
+	max-width: 1400px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.header {
+	padding-top: 20px;
+	a.logo {
+		color: $blue_color;
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 30px;
+		span {
+			color: $orange_color;
+		}
+	}
 }

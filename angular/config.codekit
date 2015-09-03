@@ -170,6 +170,15 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/styles\/normalize.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/styles\/normalize.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/styles\/style.css": {
 		"fileType": 16,
 		"ignore": 1,
@@ -203,7 +212,7 @@
 	},
 "projectAttributes": {
 	"bowerAbbreviatedPath": "",
-	"displayValue": "Frontest",
+	"displayValue": "Frontier",
 	"displayValueWasSetByUser": 1,
 	"iconImageName": "pencil_blue"
 	},

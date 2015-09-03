@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Frontest</title>
+	<link rel="stylesheet" href="styles/normalize.css">
 	<link rel="stylesheet" href="styles/style.css">
 	<script src="node_modules/angular/angular.min.js"></script>
 	<script src="node_modules/angular-route/angular-route.min.js"></script>
@@ -17,10 +18,10 @@
 
 </head>
 <body ng-controller="mainController">
-
-	<app-header></app-header>
-
-	<div ng-view></div>
-
+	<div class="width">
+		<app-header></app-header>
+	
+		<div ng-view></div>
+	</div>
 </body>
 </html>
