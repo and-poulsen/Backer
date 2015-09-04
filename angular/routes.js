@@ -16,8 +16,11 @@ frontest.config(['$routeProvider', '$httpProvider', function($routeProvider, $ht
         return {
             'request': function (config) {
                 config.headers = config.headers || {};
-                if (store.token) {
-                    config.headers.Authorization = store.token;
+
+                if (store.get("Cookie") !== null) {
+                    config.headers.Authorization = store.get("Cookie");
+                } else {
+                    $location.path('/login');
                 }
                 return config;
             },

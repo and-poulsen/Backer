@@ -1,1 +1,1 @@
-frontest.service("loginService",["$http","$location","store",function(o,n,t){this.login=function(n,t){o.post("/login",{name:n,password:t}).success(function(o){o&&console.log("Token: "+o)}).error(function(o){$log.log(o)})}}]);
+frontest.service("loginService",["$http","$location","store",function(o,e,n){this.login=function(s,t){o.post("/login",{username:s,password:t}).success(function(o){o.success===!0?(n.set("Cookie",o.cookies),e.path("")):console.log("Wrong credentials.")}).error(function(o){console.log(o)})},this.logOut=function(){n.remove("Cookie"),e.path("/login")}}]);

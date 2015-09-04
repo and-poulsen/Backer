@@ -8,6 +8,12 @@ html {
 *, *:before, *:after {
   box-sizing: inherit; }
 
+.right {
+  float: right; }
+
+.left {
+  float: left; }
+
 div.width {
   width: 100%;
   max-width: 1400px;
@@ -22,6 +28,18 @@ div.header {
     color: #3344BA;
     text-decoration: none;
     font-weight: bold;
-    font-size: 30px; }
+    font-size: 28px; }
     div.header a.logo span {
       color: #F2805D; }
+  div.header span.name {
+    float: left;
+    color: #3344BA;
+    font-size: 15px;
+    font-weight: 600;
+    padding-top: 6px;
+    margin-right: 10px; }
+  div.header button.logout {
+    float: left;
+    border: none;
+    background-color: transparent;
+    padding-top: 5px; }

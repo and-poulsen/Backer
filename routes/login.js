@@ -14,7 +14,6 @@ router.post('/login', function(req, res, next) {
 	var tokenData, request_token, SSO;
 	https.get('https://fronter.com/cphbusiness/', function(tokenRes) {
 		tokenRes.on('data', function(d) {
-			// console.log(d.toString());
 			tokenData += d.toString();
 		})
 		tokenRes.on('end', function() {
@@ -72,7 +71,6 @@ router.post('/login', function(req, res, next) {
 					for (var i = 0; i < loginRes.headers['set-cookie'].length; i++) {
 						var cookie = loginRes.headers['set-cookie'][i];
 						var equI = cookie.indexOf('=');
-						//res.cookie(cookie.substring(0,equI), cookie.substring(equI+1, cookie.indexOf(';')))
 
 						tempCookie += cookie.substring(0,equI) + "=" + cookie.substring(equI+1, cookie.indexOf(';')) + "; ";
 					};
@@ -81,10 +79,11 @@ router.post('/login', function(req, res, next) {
 						success: true,
 						cookies: tempCookie
 					});
-
-					//res.redirect('/');
 				} else {
-					res.render('login', {error: 'Wrong login'});
+					res.send({
+						success: false
+					});
+					//res.render('login', {error: 'Wrong login'});
 				}
 			})
 

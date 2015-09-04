@@ -4,4 +4,5 @@ frontest.controller('mainController', ['$scope', '$log', 'loginService', functio
 		$log.log('Logging in with: ' + $scope.name + $scope.password);
 	};
 	
+	$scope.logOut = loginService.logOut;
 }]);
